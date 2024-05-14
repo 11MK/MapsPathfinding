@@ -1,3 +1,4 @@
 mod pathfinding;
-mod graph;
 mod api;
+mod util;
+mod structs;

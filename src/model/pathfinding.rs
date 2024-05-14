@@ -1,3 +1,9 @@
+use crate::model::{structs::graph::Graph, structs::point::Point};
+use crate::model::util::*;
+
+use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::HashMap};
+
 #[derive(Clone)]
 struct State {
     id: usize,
@@ -53,7 +59,7 @@ fn a_star(graph: &Graph, start: Point, goal: Point) -> Option<Vec<Point>> {
         g_cost: 0.,
     });
     g_score.insert(st_node.id, 0.0);
-    println!("{:?}, {:?}",st_node.id, gl_node.id);
+    println!("{:?}, {:?}", st_node.id, gl_node.id);
     while let Some(State { id, .. }) = open_set.pop() {
         if id == gl_node.id {
             return Some(reconstruct_path(graph, came_from, id));
@@ -77,20 +83,6 @@ fn a_star(graph: &Graph, start: Point, goal: Point) -> Option<Vec<Point>> {
     None
 }
 
-// Method to calculate distance (meters) using Haversite Formula
-fn calculate_distance(cur: &Point, next: &Point) -> f64 {
-    let lat1 = cur.lat.to_radians();
-    let lon1 = cur.lon.to_radians();
-    let lat2 = next.lat.to_radians();
-    let lon2 = next.lon.to_radians();
-    let delta_lat = lat2 - lat1;
-    let delta_lon = lon2 - lon1;
-    let a =
-        (delta_lat / 2.0).sin().powi(2) + lat1.cos() * lat2.cos() * (delta_lon / 2.0).sin().powi(2);
-    let c = 2.0 * a.sqrt().atan2((1.0 - a).sqrt());
-    (6371.0 * c) * 1000.
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -98,7 +90,7 @@ mod tests {
     #[test]
     fn test_1() {
         // read ./data.xml into str
-        let data = include_str!("../data3.xml");
+        let data = include_str!("../../data3.xml");
         // let data = std::fs::read_to_string("./data.xml").expect("unable to read file");
         let graph = parse_xml(data);
         // let start = Point { lat: 45.6762759, lon: -111.042363 };
@@ -121,8 +113,8 @@ mod tests {
             }
             None => println!("No path found"),
         }
-        assert_eq!(1, Solution::balanced_string("QQWR".to_string()))
 
+        // assert_eq!(1, Solution::balanced_string("QQWR".to_string()))
         // assert_eq!("bb", Solution::longest_palindrome("cbbd".to_string()));
         // assert_eq!("bab", Solution::longest_palindrome("babad".to_string()));
     }

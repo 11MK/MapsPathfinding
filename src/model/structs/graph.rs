@@ -1,11 +1,16 @@
+use crate::model::{structs::point::Point, util::calculate_distance};
+use crate::model::structs::node::Node;
+use std::collections::HashMap;
 
-struct Graph {
-    nodes: HashMap<usize, Node>, // -> (uid, node)
+
+
+pub struct Graph {
+    pub nodes: HashMap<usize, Node>, // -> (uid, node)
 }
 
 impl Graph {
     // Method to add a node to the graph
-    fn add_node(&mut self, id: usize, latitude: f64, longitude: f64) {
+    pub fn add_node(&mut self, id: usize, latitude: f64, longitude: f64) {
         let node = Node {
             id,
             position: Point {
@@ -18,7 +23,7 @@ impl Graph {
     }
 
     // Method to add a connected node
-    fn add_connection(&mut self, cur_id: usize, next_id: usize) {
+    pub fn add_connection(&mut self, cur_id: usize, next_id: usize) {
         if let Some(cur) = self.nodes.get(&cur_id) {
             if let Some(nxt) = self.nodes.get(&next_id) {
                 let distance = calculate_distance(&cur.position, &nxt.position);
@@ -32,12 +37,12 @@ impl Graph {
     }
 
     // Method to get a reference to a node by its ID
-    fn get_node(&mut self, id: usize) -> Option<&Node> {
+    pub fn get_node(&mut self, id: usize) -> Option<&Node> {
         self.nodes.get(&id)
     }
 
     // Method to find nearest node to given (lat, lon) coordinates
-    fn find_nearest(&self, target: Point) -> &Node {
+    pub fn find_nearest(&self, target: Point) -> &Node {
         let mut min_distance = f64::MAX;
         let mut nearest_node = None;
         for n in self.nodes.values() {
@@ -51,7 +56,7 @@ impl Graph {
     }
 
     // Method to get connected nodes for a node
-    fn get_neighbors(&self, id: usize) -> Option<&Vec<(f64, usize)>> {
+    pub fn get_neighbors(&self, id: usize) -> Option<&Vec<(f64, usize)>> {
         self.nodes.get(&id).map(|node| &node.connected)
     }
 }
