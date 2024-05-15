@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Map</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <link href="./output" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <script type="module">
+    let map;
+
+    async function initMap() {
+      const {Map} = await google.maps.importLibrary("maps");
+
+      map = new Map(document.getElementById("map"), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 8,
+      });
+    }
+
+    initMap();
+  </script>
+</head>
+
+<body className="bg-black">
+
+  <article class="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
+    <img alt=""
+      src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+      class="h-56 w-full object-cover" />
+
+    <div class="bg-white p-4 sm:p-6">
+      <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
+
+      <a href="#">
+        <h3 class="mt-0.5 text-lg text-gray-900">How to position your furniture for positivity</h3>
+      </a>
+
+      <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+        pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
+        mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
+        dignissimos. Molestias explicabo corporis voluptatem?
+      </p>
+    </div>
+  </article>
+  <div id="map" className="h-[500px]"></div>
+  <!-- prettier-ignore -->
+  <script>(g => {var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a)})); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))})
+      ({key: "AIzaSyDvaGuUH2i4AHHtgLgycSThkG1AzNXHLVs", v: "weekly"});</script>
+
+</body>
+
+</html>
