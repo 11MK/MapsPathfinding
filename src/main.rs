@@ -12,11 +12,11 @@ mod model;
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
-    let port: u16 = 8091;
+    let port: u16 = 6969;
     log::info!(" Server started successfully at http://localhost:{}", port);
 
     HttpServer::new(|| {
-        let tera = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")).unwrap();
+        let tera = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/view/templates/**/*")).unwrap();
         let error_handlers = ErrorHandlers::new()
             .handler(
                 http::StatusCode::INTERNAL_SERVER_ERROR,
@@ -34,7 +34,11 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/").route(web::get().to(controller::serve::index)))
             // .service(web::resource("/login").route(web::get().to(api::route::login)))
             // .service(web::resource("/register").route(web::get().to(api::route::register)))
-            .service(web::resource("/favicon").route(web::get().to(controller::serve::favicon)))
+            .service(web::resource("/output").route(web::get().to(controller::serve::styles)))
+            .service(web::resource("/favicon.svg").route(web::get().to(controller::serve::fav_svg)))
+            .service(web::resource("/favicon.png").route(web::get().to(controller::serve::fav_png)))
+            .service(web::resource("/script/map").route(web::get().to(controller::serve::custom_map)))
+            .service(web::resource("/script/googleAPI").route(web::get().to(controller::serve::google_api)))
         // .service(web::resource("/clicked").route(web::get().to(api::route::clicked)))
         // .service(web::resource("/test").route(web::get().to(api::route::test)))
         // register favicon
