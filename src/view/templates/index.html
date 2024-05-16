@@ -5,53 +5,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simple Map</title>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
   <link href="./output" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <script type="module">
-    let map;
-
-    async function initMap() {
-      const {Map} = await google.maps.importLibrary("maps");
-
-      map = new Map(document.getElementById("map"), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8,
-      });
+  <!-- <script src="/mapsLibrary"></script> -->
+  <script>
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
     }
-
-    initMap();
+    // Whenever the user explicitly chooses light mode
+    localStorage.theme = 'light'
+    // Whenever the user explicitly chooses dark mode
+    localStorage.theme = 'dark'
+    // Whenever the user explicitly chooses to respect the OS preference
+    localStorage.removeItem('theme')
   </script>
 </head>
 
-<body className="bg-black">
+<body class="w-full h-full flex flex-col items-center justify-center">
 
-  <article class="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
-    <img alt=""
-      src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-      class="h-56 w-full object-cover" />
-
-    <div class="bg-white p-4 sm:p-6">
-      <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
-
-      <a href="#">
-        <h3 class="mt-0.5 text-lg text-gray-900">How to position your furniture for positivity</h3>
-      </a>
-
-      <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
-        pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
-        mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
-        dignissimos. Molestias explicabo corporis voluptatem?
-      </p>
+  <header class="flex items-center justify-between px-4 py-3">
+    <!-- Logo and Site Name -->
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mr-2 fill-current" viewBox="0 0 20 20">
+        <!-- Your SVG logo -->
+      </svg>
+      <h1 class="text-lg font-semibold">PATHS</h1> <!-- Site name -->
     </div>
-  </article>
-  <div id="map" className="h-[500px]"></div>
-  <!-- prettier-ignore -->
-  <script>(g => {var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a)})); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))})
-      ({key: "AIzaSyDvaGuUH2i4AHHtgLgycSThkG1AzNXHLVs", v: "weekly"});</script>
 
+    <!-- Buttons -->
+    <div class="flex items-center space-x-4">
+      <!-- Information Button SVG -->
+      <button
+        class="p-2 rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 20 20">
+          <!-- Your information button SVG -->
+        </svg>
+      </button>
+
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle" type="button"
+        class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+        <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+            fill-rule="evenodd" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+  <div class="bg-gray-200 flex justify-center items-center h-14 w-full">
+    <div class="bg-black w-auto h-full"></div>
+    <div class="bg-black w-auto h-full"></div>
+  </div>
+  <!-- <div id="map" class="h-full"></div>  -->
+  <!-- <script type="module" src="/mapsConfig"></script>  -->
 </body>
 
 </html>
