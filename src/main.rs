@@ -37,8 +37,8 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/output").route(web::get().to(controller::serve::styles)))
             .service(web::resource("/favicon.svg").route(web::get().to(controller::serve::fav_svg)))
             .service(web::resource("/favicon.png").route(web::get().to(controller::serve::fav_png)))
-            .service(web::resource("/script/map").route(web::get().to(controller::serve::custom_map)))
-            .service(web::resource("/script/googleAPI").route(web::get().to(controller::serve::google_api)))
+            .service(web::resource("/mapsLibrary").route(web::get().to(controller::serve::google_api)))
+            .service(web::resource("/mapsConfig").route(web::get().to(controller::serve::custom_map)))
         // .service(web::resource("/clicked").route(web::get().to(api::route::clicked)))
         // .service(web::resource("/test").route(web::get().to(api::route::test)))
         // register favicon

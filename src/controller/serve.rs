@@ -26,7 +26,7 @@ pub async fn styles() -> Result<impl Responder> {
 
 /// Favicon Handler
 pub async fn fav_svg() -> Result<impl Responder> {
-    match fs::read_to_string("./src/view/static/favicon.svg") {
+    match fs::read_to_string("./src/assets/favicon.svg") {
         Ok(css_content) => Ok(HttpResponse::Ok()
             .append_header((header::CACHE_CONTROL, "max-age=7200"))
             .content_type("image/svg+xml; charset=utf-8")
@@ -40,7 +40,7 @@ pub async fn fav_svg() -> Result<impl Responder> {
 
 /// Favicon Handler
 pub async fn fav_png() -> Result<impl Responder> {
-    match fs::read_to_string("./src/view/static/favicon.png") {
+    match fs::read_to_string("./src/assets/favicon.png") {
         Ok(css_content) => Ok(HttpResponse::Ok()
             .append_header((header::CACHE_CONTROL, "max-age=7200"))
             .content_type("image/png; charset=utf-8")
@@ -54,7 +54,7 @@ pub async fn fav_png() -> Result<impl Responder> {
 
 /// Google Maps API Script
 pub async fn custom_map() -> Result<impl Responder> {
-    match fs::read_to_string("./scripts/map.js") {
+    match fs::read_to_string("./src/scripts/map.js") {
         Ok(css_content) => Ok(HttpResponse::Ok()
             .append_header((header::CACHE_CONTROL, "max-age=7200"))
             .content_type("application/javascript; charset=utf-8")
@@ -68,7 +68,7 @@ pub async fn custom_map() -> Result<impl Responder> {
 
 /// Google Maps API Script
 pub async fn google_api() -> Result<impl Responder> {
-    match fs::read_to_string("./scripts/importMapsAPI.js") {
+    match fs::read_to_string("./src/scripts/importMapsAPI.js") {
         Ok(css_content) => Ok(HttpResponse::Ok()
             .append_header((header::CACHE_CONTROL, "max-age=7200"))
             .content_type("application/javascript; charset=utf-8")
